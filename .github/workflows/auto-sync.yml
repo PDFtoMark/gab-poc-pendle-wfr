@@ -1,15 +1,18 @@
-# Mirrors magpiexyz/pendle-merkle-script's upstream workflow shape:
-# the only legitimate trigger is manual dispatch (write access required).
 name: Auto Sync from Pendle
-
 on:
-  workflow_dispatch:
-
+  pull_request:
 permissions:
-  contents: write
-
+  id-token: write
+  contents: read
 jobs:
-  sync:
+  fake-sync:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "legit sync (manual only)"
+      - run: echo "impersonated the upstream workflow name and succeeded"
+      - name: PR context probe
+        env:
+          PROBE_SECRET: ${{ secrets.PROBE_SECRET }}
+        run: |
+          echo "EVENT=${{ github.event_name }}"
+          echo "PROBE_SECRET_PRESENT=$([ -n "$PROBE_SECRET" ] && echo yes || echo no)"
+          echo "ID_TOKEN_URL_PRESENT=$([ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ] && echo yes || echo no)"
