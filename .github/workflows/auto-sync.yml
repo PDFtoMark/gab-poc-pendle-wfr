@@ -1,0 +1,15 @@
+# Mirrors magpiexyz/pendle-merkle-script's upstream workflow shape:
+# the only legitimate trigger is manual dispatch (write access required).
+name: Auto Sync from Pendle
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "legit sync (manual only)"
